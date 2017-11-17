@@ -37,18 +37,18 @@ public:
     }
 
     int getElement(int p){
-        Node *aux = head;
-        int cont = 1;
+        Node *newNode = head;
+        int i = 1;
         if(empty())
             return -1;
         if((p < 1) || (p > nElements))
             return -1;
-        while(cont < p){
-            aux = aux->next;
-            cont++;
+        while(i < p){
+            newNode = newNode->next;
+            i++;
         }
-        return aux->data;
-        delete aux;
+        return newNode->data;
+        delete (newNode);
     }
 
     bool push_front(int d){
@@ -68,25 +68,29 @@ public:
         return true;
         delete (newNode);
     }
+	
+	
 
+		    
     bool remove_any(int p){
         Node *newNode = head;
         Node *tmp;
-        int n = 1;
-        int d;
-
-        while(n <= p - 1){
-            tmp = newNode;
-            newNode = newNode->next;
-            n++;
-        }
-
+       	int i = 1;
+       	int d;
+       
+       
+       while((i <= p - 1) && (newNode != nullptr)){
+       		tmp = newNode;
+       		newNode	= newNode->next;
+       		i++;
+       }	
+      
         d = newNode->data;
         tmp->next = newNode->next;
         tmp->prev = newNode->prev;
 
-        nElements--;
-        delete(newNode);
+		nElements--;
+        delete(newNode);  
     }
 
     bool push_back(int d){
@@ -163,9 +167,22 @@ int main(){
     std::cout << l.getElement(5);
     std::cout << l.getElement(6) << "\n";
 
-    l.pop_back();
-    l.pop_front();
+    //l.pop_back();
+    //l.pop_front();
+    l.remove_any(4);
+	
+    std::cout << "Size of list: " << l.size() << "\n";
 
+    std::cout << l.getElement(1);
+    std::cout << l.getElement(2);
+    std::cout << l.getElement(3);
+    std::cout << l.getElement(4);
+    std::cout << l.getElement(5);
+    std::cout << l.getElement(6) << "\n";
+	
+	l.remove_any(3);
+    //l.pop_back();
+    
     std::cout << "Size of list: " << l.size() << "\n";
 
     std::cout << l.getElement(1);
@@ -175,18 +192,9 @@ int main(){
     std::cout << l.getElement(5);
     std::cout << l.getElement(6) << "\n";
 
-    l.pop_back();
-
-    std::cout << l.getElement(1);
-    std::cout << l.getElement(2);
-    std::cout << l.getElement(3);
-    std::cout << l.getElement(4);
-    std::cout << l.getElement(5);
-    std::cout << l.getElement(6) << "\n";
-
     std::cout << "Size of list: " << l.size() << "\n";
-
-    l.pop_front();
+    
+    //l.pop_front();
 
     std::cout << l.getElement(1);
     std::cout << l.getElement(2);
@@ -194,6 +202,8 @@ int main(){
     std::cout << l.getElement(4);
     std::cout << l.getElement(5);
     std::cout << l.getElement(6) << "\n";
-
+    
+    std::cout << "Size of list: " << l.size() << "\n";
+ 
 }
 
