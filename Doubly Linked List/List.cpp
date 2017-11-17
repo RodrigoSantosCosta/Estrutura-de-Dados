@@ -194,7 +194,7 @@ int main(){
 
     std::cout << "Size of list: " << l.size() << "\n";
     
-    //l.pop_front();
+    l.pop_front();
 
     std::cout << l.getElement(1);
     std::cout << l.getElement(2);
@@ -204,6 +204,5 @@ int main(){
     std::cout << l.getElement(6) << "\n";
     
     std::cout << "Size of list: " << l.size() << "\n";
- 
+    
 }
-
