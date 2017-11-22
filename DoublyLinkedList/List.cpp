@@ -100,10 +100,11 @@ bool List::push_front(int d){
 	newNode->prev = nullptr;
 
 	if(empty()){
-		tail = newNode;
+		head = tail = newNode;
 	}else{
 		head->prev = newNode;
 	}
+	
 	head = newNode;
 	nElements++;
 	return true;
@@ -119,8 +120,11 @@ bool List::push_back(int d){
 	newNode->prev = tail;
 	newNode->next = nullptr;
 
-
-	tail->next = newNode;
+	if(empty()){
+		head = tail = newNode;
+	}else{
+		tail->next = newNode;
+	}
 
 	tail = newNode;
 	nElements++;
@@ -158,7 +162,7 @@ bool List::remove_any(int p){
 	Node *tmp2;
 	int n = 0;
 
-	while((n <= p - 1) &&(tmp1 != nullptr)){
+	while((n < p) &&(tmp1 != nullptr)){
 		tmp2 = tmp1;
 		tmp1 = tmp1->next;
 		n++;
@@ -218,24 +222,21 @@ bool List::pop_front(){
 bool List::pop_frontUnit(){
 	head = nullptr;
 	tail = nullptr;
-	nElements--;
+	nElements= 0;
 	return true;
 }	
 
 /*int main(){
     List l;
 
-    l.insert(0,17);
- 	l.insert(1,14);
-	l.insert(2,3);
-	l.insert(1,10);
-	l.insert(3,5);
-	l.insert(0,6);
-	
-	l.push_front(17);
+    l.push_front(1);
 	l.push_front(2);
-	l.push_back(3);
+	l.push_front(1);
+	l.push_front(3);
 	l.push_front(4);
+	l.push_front(5);
+	l.push_front(6);
+	l.push_front(7);
 	
 	std::cout << "\nSize of list:" << l.size() << "\n";
 	
@@ -243,18 +244,31 @@ bool List::pop_frontUnit(){
 		std::cout << l.getElement(i) << " ";
 	}
 
-	l.pop_back();
-	l.pop_back();
-	l.pop_back();
-	l.pop_back();
-	l.pop_back();
-	l.pop_front();
-	l.pop_back();
-	l.pop_back();
-	l.pop_back();
-	l.pop_back();
-	l.pop_back();
-	l.pop_front();
+	l.erase(1);
+	
+	std::cout << "\nSize of list:" << l.size() << "\n";
+	
+	for(int i = 0; i < 12; i++){
+		std::cout << l.getElement(i) << " ";
+	}
+	
+	l.erase(6);
+	
+	std::cout << "\nSize of list:" << l.size() << "\n";
+	
+	for(int i = 0; i < 12; i++){
+		std::cout << l.getElement(i) << " ";
+	}
+
+	l.erase(4);
+	
+	std::cout << "\nSize of list:" << l.size() << "\n";
+	
+	for(int i = 0; i < 12; i++){
+		std::cout << l.getElement(i) << " ";
+	}
+	
+	l.erase(1);
 	
 	std::cout << "\nSize of list:" << l.size() << "\n";
 	
