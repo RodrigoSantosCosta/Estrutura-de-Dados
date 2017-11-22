@@ -1,6 +1,6 @@
 #include <iostream>
 #include "List.h"
-
+	
 	Node::Node(){
 
 		prev = nullptr;
@@ -14,7 +14,7 @@
 	}
 
     bool List::empty(){
-        if(nElements == 0){
+        if(size() == 0){
             return true;
         }else{
             return false;
@@ -27,63 +27,63 @@
 
     int List::getElement(int p){
         Node *aux = head;
-        int cont = 1;
+        int cont = 0;
         if(empty())
             return -1;
-        if((p < 1) || (p > nElements))
+        if((p < 0) || (p + 1  > size()))
             return -1;
-        while(cont < p){
+        while(cont < p ){
             aux = aux->next;
             cont++;
         }
         return aux->data;
         delete (aux);
     }
-
+	
 	bool List::insert(int p, int d){
-
-		if((empty()) && (p != 1)){
+		
+		if((empty()) && (p != 0)){
 			return false;
 		}
 
-		if(p == 1){
+		if(p == 0){
 			push_front(d);
 		}
-
-		else if(p + 1 == nElements){
+		
+		else if(p == size()){
 			return push_back(d);
 		}
-
+		
 		else{
 			return insert_any(p,d);
-		}
+		} 	
 		return true;
-	}
-
+	}		
+	
 	bool List::insert_any(int p, int d){
 		Node *newNode = new Node();
 		newNode->data = d;
 		Node *tmp = head;
 		int i = 1;
-
-		while((i < p - 1) && (tmp != nullptr)){
+	
+		while((i <  p) && (tmp != nullptr)){
 			tmp = tmp->next;
 			i++;
 		}
-
+	
 		if(tmp == nullptr){
 			return false;
 		}
-
+	
 		newNode->prev = tmp;
 		newNode->next = tmp->next;
 		tmp->next = newNode-> prev;
 		tmp->next = newNode;
-
+	
 		nElements++;
 		return true;
-	}
-
+	}			
+		
 
 
     bool List::push_front(int d){
@@ -104,7 +104,7 @@
         delete (newNode);
     }
 
-
+    
 
     bool List::push_back(int d){
       	Node *newNode = new Node();
@@ -126,38 +126,40 @@
 
 	bool List::erase(int p){
 		if(empty()){
-			return false; // Empty list
+			std::cout << "Lista vazia!\n";
+			return false; // Empty list		
+		}
+		
+		if((p == 0) && (size() == 0)){
+			return pop_frontUnit();		
+
 		}
 
-		if((p == 1) && (size() == 1)){
-			return pop_frontUnit();
+		else if(p == 0){
+			return pop_front();	
 		}
-
-		else if(p == 1){
-			return pop_front();
-		}
-
-		else if(p == size()){
+			
+		else if(p == size() - 1){
 			return pop_back();
 		}
-
+		
 		else{
 			return remove_any(p);
-		}
+		}	
 	}
-
-
+	
+	
 	bool List::remove_any(int p){
         Node *tmp1 = head;
         Node *tmp2;
-        int n = 1;
+        int n = 0;
 
         while((n <= p - 1) &&(tmp1 != nullptr)){
             tmp2 = tmp1;
             tmp1 = tmp1->next;
             n++;
         }
-
+		
 		if(tmp1 == nullptr){
 			return false;
 		}
@@ -169,10 +171,10 @@
         delete(tmp1);
 		return true;
     }
-
+    
 	bool List::pop_back(){
-        if(nElements == 1){
-			return pop_frontUnit();
+        if(size() == 0){
+			return pop_frontUnit();		
 		}
 		Node *tmp = tail;
 
@@ -185,13 +187,12 @@
     }
 
     bool List::pop_front(){
-
-		if(nElements == 1){
-			return pop_frontUnit();
+		if(size() == 0){
+			return pop_frontUnit();		
 		}
-
+		
 		Node *tmp = head;
-
+        
 
         head = tmp->next;
         head->prev = nullptr;
@@ -200,96 +201,80 @@
         delete(tmp);
 		return true;
     }
-
+	
 	bool List::pop_frontUnit(){
 		head = nullptr;
 		tail = nullptr;
 		nElements--;
 		return true;
-	}
+	}	
 
-int main(){
+/*int main(){
     List l;
 
-    l.push_front(4);
-    l.push_front(5);
-    l.push_front(6);
-    l.push_back(1);
-    l.push_back(2);
-    l.push_back(3);
+    l.insert(0,1);
+ 	l.insert(1,2);
+	l.insert(2,3);
+	l.insert(3,4);
+	l.insert(4,5);
+	l.insert(5,6);
 
-
+	
     std::cout << "Size of list:" << l.size() << "\n";
+	
 
-
+    std::cout << l.getElement(0);
     std::cout << l.getElement(1);
     std::cout << l.getElement(2);
     std::cout << l.getElement(3);
     std::cout << l.getElement(4);
-    std::cout << l.getElement(5);
-    std::cout << l.getElement(6) << "\n";
-
-	l.pop_back();
-
+    std::cout << l.getElement(5) << "\n";
+	
+	l.erase(5);
+		
     std::cout << "Size of list: " << l.size() << "\n";
 
-	std::cout << l.getElement(1);
+	std::cout << l.getElement(0);
+    std::cout << l.getElement(1);
     std::cout << l.getElement(2);
     std::cout << l.getElement(3);
     std::cout << l.getElement(4);
-    std::cout << l.getElement(5);
-    std::cout << l.getElement(6) << "\n";
-
-	l.pop_front();
-
-    std::cout << "Size of list: " << l.size() << "\n";
-
-	std::cout << l.getElement(1);
-    std::cout << l.getElement(2);
-    std::cout << l.getElement(3);
-    std::cout << l.getElement(4);
-    std::cout << l.getElement(5);
-    std::cout << l.getElement(6) << "\n";
-
-	l.erase(2);
-
-    std::cout << "Size of list: " << l.size() << "\n";
-
-	std::cout << l.getElement(1);
-    std::cout << l.getElement(2);
-    std::cout << l.getElement(3);
-    std::cout << l.getElement(4);
-    std::cout << l.getElement(5);
-    std::cout << l.getElement(6) << "\n";
-
+    std::cout << l.getElement(5) << "\n";
 	l.erase(3);
-
+		
     std::cout << "Size of list: " << l.size() << "\n";
 
-	std::cout << l.getElement(1);
+	std::cout << l.getElement(0);
+    std::cout << l.getElement(1);
     std::cout << l.getElement(2);
     std::cout << l.getElement(3);
     std::cout << l.getElement(4);
-    std::cout << l.getElement(5);
-    std::cout << l.getElement(6) << "\n";
-
-	l.erase(1);
-	l.erase(1);
-    l.erase(1);
-
+    std::cout << l.getElement(5) << "\n";
+	l.erase(2);
+		
     std::cout << "Size of list: " << l.size() << "\n";
 
-	std::cout << l.getElement(1);
+	std::cout << l.getElement(0);
+    std::cout << l.getElement(1);
     std::cout << l.getElement(2);
     std::cout << l.getElement(3);
     std::cout << l.getElement(4);
-    std::cout << l.getElement(5);
-    std::cout << l.getElement(6) << "\n";
-}
+    std::cout << l.getElement(5) << "\n";
+	l.erase(1);
+	l.pop_back();
+	l.erase(0);
+	l.erase(0);
+	l.erase(0);
+	
+		
+    std::cout << "Size of list: " << l.size() << "\n";
 
+	std::cout << l.getElement(0);
+    std::cout << l.getElement(1);
+    std::cout << l.getElement(2);
+    std::cout << l.getElement(3);
+    std::cout << l.getElement(4);
+    std::cout << l.getElement(5) << "\n";
 
-
-
-
-
+}*/
 
