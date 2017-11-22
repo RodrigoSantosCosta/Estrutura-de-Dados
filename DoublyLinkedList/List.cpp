@@ -64,9 +64,10 @@
 		Node *newNode = new Node();
 		newNode->data = d;
 		Node *tmp = head;
+		Node *tmp2;
 		int i = 1;
 	
-		while((i <  p) && (tmp != nullptr)){
+		while((i <  p ) && (tmp != nullptr)){
 			tmp = tmp->next;
 			i++;
 		}
@@ -75,10 +76,15 @@
 			return false;
 		}
 	
-		newNode->prev = tmp;
+		/*newNode->prev = tmp;
 		newNode->next = tmp->next;
-		tmp->next = newNode-> prev;
+		tmp->next = newNode->prev;
+		tmp->next = newNode;*/
+		tmp2 = tmp->next;
 		tmp->next = newNode;
+		newNode->prev = tmp;
+		newNode->next = tmp2;
+		tmp2->prev = newNode;
 	
 		nElements++;
 		return true;
@@ -113,11 +119,9 @@
         newNode->prev = tail;
         newNode->next = nullptr;
 
-        if(empty()){
-            head = newNode;
-        }else{
-            tail->next = newNode;
-        }
+        
+        tail->next = newNode;
+     
         tail = newNode;
         nElements++;
         return true;
@@ -173,10 +177,15 @@
     }
     
 	bool List::pop_back(){
-        if(size() == 0){
+        if(size() == 1){
 			return pop_frontUnit();		
 		}
+
+		if(empty()){
+			return false;
+		}
 		Node *tmp = tail;
+        
 
         tail = tmp->prev;
         tail->next = nullptr;
@@ -187,8 +196,12 @@
     }
 
     bool List::pop_front(){
-		if(size() == 0){
+		if(size() == 1){
 			return pop_frontUnit();		
+		}
+		
+		if(empty()){
+			return false;
 		}
 		
 		Node *tmp = head;
@@ -209,72 +222,44 @@
 		return true;
 	}	
 
-/*int main(){
+int main(){
     List l;
 
-    l.insert(0,1);
- 	l.insert(1,2);
+    l.insert(0,17);
+ 	l.insert(1,14);
 	l.insert(2,3);
-	l.insert(3,4);
-	l.insert(4,5);
-	l.insert(5,6);
-
+	l.insert(1,10);
+	l.insert(3,5);
+	l.insert(0,6);
 	
-    std::cout << "Size of list:" << l.size() << "\n";
+	l.push_front(17);
+	l.push_front(2);
+	l.push_back(3);
+	l.push_front(4);
 	
-
-    std::cout << l.getElement(0);
-    std::cout << l.getElement(1);
-    std::cout << l.getElement(2);
-    std::cout << l.getElement(3);
-    std::cout << l.getElement(4);
-    std::cout << l.getElement(5) << "\n";
+	std::cout << "\nSize of list:" << l.size() << "\n";
 	
-	l.erase(5);
-		
-    std::cout << "Size of list: " << l.size() << "\n";
+	for(int i = 0; i < 12; i++){
+		std::cout << l.getElement(i) << " ";
+	}
 
-	std::cout << l.getElement(0);
-    std::cout << l.getElement(1);
-    std::cout << l.getElement(2);
-    std::cout << l.getElement(3);
-    std::cout << l.getElement(4);
-    std::cout << l.getElement(5) << "\n";
-	l.erase(3);
-		
-    std::cout << "Size of list: " << l.size() << "\n";
-
-	std::cout << l.getElement(0);
-    std::cout << l.getElement(1);
-    std::cout << l.getElement(2);
-    std::cout << l.getElement(3);
-    std::cout << l.getElement(4);
-    std::cout << l.getElement(5) << "\n";
-	l.erase(2);
-		
-    std::cout << "Size of list: " << l.size() << "\n";
-
-	std::cout << l.getElement(0);
-    std::cout << l.getElement(1);
-    std::cout << l.getElement(2);
-    std::cout << l.getElement(3);
-    std::cout << l.getElement(4);
-    std::cout << l.getElement(5) << "\n";
-	l.erase(1);
 	l.pop_back();
-	l.erase(0);
-	l.erase(0);
-	l.erase(0);
+	l.pop_back();
+	l.pop_back();
+	l.pop_back();
+	l.pop_back();
+	l.pop_front();
+	l.pop_back();
+	l.pop_back();
+	l.pop_back();
+	l.pop_back();
+	l.pop_back();
+	l.pop_front();
 	
-		
-    std::cout << "Size of list: " << l.size() << "\n";
-
-	std::cout << l.getElement(0);
-    std::cout << l.getElement(1);
-    std::cout << l.getElement(2);
-    std::cout << l.getElement(3);
-    std::cout << l.getElement(4);
-    std::cout << l.getElement(5) << "\n";
-
-}*/
+	std::cout << "\nSize of list:" << l.size() << "\n";
+	
+	for(int i = 0; i < 12; i++){
+		std::cout << l.getElement(i) << " ";
+	}
+}
 
